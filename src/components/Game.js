@@ -4,15 +4,19 @@ const Game = (props) => {
 
     const [state, setState] = useState({
         compCard: '',
-        playerCard: ''
-    })
-
-    const data = {
+        playerCard: '',
         compDeck: [],
         playerDeck: [],
         compWins: 0,
         playerWins: 0
-    }
+    })
+
+    // const data = {
+    //     compDeck: [],
+    //     playerDeck: [],
+    //     compWins: 0,
+    //     playerWins: 0
+    // }
 
     useEffect(() => {
         let deck = [];
@@ -31,33 +35,36 @@ const Game = (props) => {
             deck[i] = deck[j];
             deck[j] = temp;
         }
-        data.compDeck = deck.slice(0, deck.length / 2)
-        data.playerDeck = deck.slice(deck.length / 2, deck.length)
+        setState({...state,
+            compDeck: deck.slice(0, deck.length / 2),
+            playerDeck: deck.slice(deck.length / 2, deck.length)})
     },[])
 
     const handleClickNext = () => {
-        if (data.compDeck.length) {
-            let compCard = data.compDeck.pop();
-            let playerCard = data.playerDeck.pop();
-            setState({
-                compCard: `${compCard.range}, ${compCard.suit}`,
-                playerCard: `${playerCard.range}, ${playerCard.suit}`,
-            })
+        if (state.compDeck.length) {
+            let compCard = state.compDeck.pop();
+            let playerCard = state.playerDeck.pop();
             if (compCard.range > playerCard.range) {
-                data.compWins++
+                setState({...state,
+                    compWins: state.compWins+1,
+                    playerCard: playerCard,
+                    compCard: compCard})
             } else if (compCard.range < playerCard.range) {
-                data.playerWins++
+                setState({...state,
+                    playerWins: state.playerWins+1,
+                    playerCard: playerCard,
+                    compCard: compCard})
             }
         } else {
-            props.changePage('result', data.compWins, data.playerWins)
+            props.changePage('result', state.compWins, state.playerWins)
         }
     }
 
     return (
         <div>
             <h1>Computer</h1>
-            <h2>Comp Card: {state.compCard}</h2>
-            <h2>Player Card: {state.playerCard}</h2>
+            <h2>Comp Card: {state.compCard.range}</h2>
+            <h2>Player Card: {state.playerCard.range}</h2>
             <h1>{props.name}</h1>
 
             <button onClick={() =>
