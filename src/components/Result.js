@@ -4,11 +4,10 @@ const Result = (props) => {
 
     const getResult = () =>{
         if (props.compWins>props.playerWins)
-            return "YOU LOSE!!!"
+            return "YOU LOSE!!!";
         if (props.compWins<props.playerWins)
-            return "YOU WIN!!!"
-        return "DRAW!"
-
+            return "YOU WIN!!!";
+        return "DRAW!";
     }
 
     return (

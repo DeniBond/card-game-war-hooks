@@ -11,7 +11,6 @@ const Start = (props) => {
                    onChange={(e) => {
                        setName(e.target.value)
                    }}/>
-
             <button onClick={() => {
                 props.changePage('game', name)
             }}>START

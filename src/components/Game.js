@@ -1,22 +1,16 @@
 import React, {useEffect, useState} from 'react';
 
+let compDeck = [];
+let playerDeck = [];
+let compWins = 0;
+let playerWins = 0;
+
 const Game = (props) => {
 
     const [state, setState] = useState({
         compCard: '',
-        playerCard: '',
-        compDeck: [],
-        playerDeck: [],
-        compWins: 0,
-        playerWins: 0
+        playerCard: ''
     })
-
-    // const data = {
-    //     compDeck: [],
-    //     playerDeck: [],
-    //     compWins: 0,
-    //     playerWins: 0
-    // }
 
     useEffect(() => {
         let deck = [];
@@ -35,28 +29,28 @@ const Game = (props) => {
             deck[i] = deck[j];
             deck[j] = temp;
         }
-        setState({...state,
-            compDeck: deck.slice(0, deck.length / 2),
-            playerDeck: deck.slice(deck.length / 2, deck.length)})
-    },[])
+        compDeck = deck.slice(0, deck.length / 2);
+        playerDeck = deck.slice(deck.length / 2, deck.length
+        )}, [])
 
     const handleClickNext = () => {
-        if (state.compDeck.length) {
-            let compCard = state.compDeck.pop();
-            let playerCard = state.playerDeck.pop();
+        console.log(compDeck)
+        if (compDeck.length) {
+            let compCard = compDeck.pop();
+            let playerCard = playerDeck.pop();
+            setState({
+                compCard: compCard,
+                playerCard: playerCard
+            })
             if (compCard.range > playerCard.range) {
-                setState({...state,
-                    compWins: state.compWins+1,
-                    playerCard: playerCard,
-                    compCard: compCard})
+                compWins = compWins + 1;
             } else if (compCard.range < playerCard.range) {
-                setState({...state,
-                    playerWins: state.playerWins+1,
-                    playerCard: playerCard,
-                    compCard: compCard})
+                playerWins = playerWins +1;
             }
         } else {
-            props.changePage('result', state.compWins, state.playerWins)
+            props.changePage('result', compWins, playerWins)
+            compWins=0;
+            playerWins=0;
         }
     }
 
@@ -66,10 +60,8 @@ const Game = (props) => {
             <h2>Comp Card: {state.compCard.range}</h2>
             <h2>Player Card: {state.playerCard.range}</h2>
             <h1>{props.name}</h1>
-
             <button onClick={() =>
-                handleClickNext()
-            }>NEXT
+                handleClickNext()}>NEXT
             </button>
         </div>
     );

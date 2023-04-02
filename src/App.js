@@ -8,15 +8,15 @@ const App = () => {
 
     const [activePage, setPage] = useState('start');
     const [name, setName] = useState('Player');
-    const [compWins, setCompWins] = useState('1');
-    const [playerWins, setPlayerWins] = useState('2');
+    const [compWins, setCompWins] = useState(0);
+    const [playerWins, setPlayerWins] = useState(0);
 
     const changeActivePage = (page, ...args) => {
         switch (args.length) {
             case 0: {
                 setPage(page)
-            }
                 break;
+            }
             case 1: {
                 setPage(page);
                 setName(args[0] || name)
